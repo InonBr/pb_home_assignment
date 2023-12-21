@@ -11,11 +11,9 @@ import {
   CreateNewUserSchemaType,
   UpdateUserSchema,
   UpdateUserSchemaType,
+  ValidUserIdParamsSchema,
+  ValidUserIdParamsSchemaType,
 } from "./userRouts.schema";
-import {
-  CreateTransactionHistoryParamsSchema,
-  CreateTransactionHistoryParamsSchemaType,
-} from "@systems/utils";
 
 const userRoutes = Router();
 
@@ -49,13 +47,9 @@ userRoutes.post(
 userRoutes.put(
   "/updateUser/:userId",
   validateSchema(UpdateUserSchema),
-  validateSchema(CreateTransactionHistoryParamsSchema, "p"),
+  validateSchema(ValidUserIdParamsSchema, "p"),
   async (
-    req: Request<
-      CreateTransactionHistoryParamsSchemaType,
-      {},
-      UpdateUserSchemaType
-    >,
+    req: Request<ValidUserIdParamsSchemaType, {}, UpdateUserSchemaType>,
     res: Response
   ) => {
     try {

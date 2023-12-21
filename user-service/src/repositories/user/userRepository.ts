@@ -31,11 +31,10 @@ export const updateUserData = async ({
   firstName,
   lastName,
   userId,
-}: UpdateUserInterface) => {
-  await UserModel.findOneAndUpdate(
+}: UpdateUserInterface) =>
+  UserModel.findOneAndUpdate(
     {
       _id: userId,
     },
     { balance, email, firstName, lastName }
   );
-};

@@ -7,14 +7,5 @@ export enum TransactionStatusEnum {
   CANCELED = "canceled",
 }
 
-export const CreateTransactionHistoryParamsSchema = object().shape({
-  userId: string()
-    .test(
-      (value) => value === undefined || mongoose.Types.ObjectId.isValid(value)
-    )
-    .required(),
-});
-
-export type CreateTransactionHistoryParamsSchemaType = InferType<
-  typeof CreateTransactionHistoryParamsSchema
->;
+export const objectIdValidator = (value: string | undefined) =>
+  value === undefined || mongoose.Types.ObjectId.isValid(value);

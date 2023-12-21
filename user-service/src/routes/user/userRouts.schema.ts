@@ -1,3 +1,5 @@
+import { objectIdValidator } from "@systems/utils";
+import { CreateTransactionHistoryBodySchema } from "routes/transactionHistory/transactionHistoryRoutes.schema";
 import { InferType, number, object, string } from "yup";
 
 export const CreateNewUserSchema = object().shape({
@@ -13,5 +15,19 @@ export const UpdateUserSchema = object().shape({
   amount: number().optional(),
 });
 
+export const ValidUserIdParamsSchema = object().shape({
+  userId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
+export type ValidUserIdParamsSchemaType = InferType<
+  typeof ValidUserIdParamsSchema
+>;
+
 export type CreateNewUserSchemaType = InferType<typeof CreateNewUserSchema>;
 export type UpdateUserSchemaType = InferType<typeof UpdateUserSchema>;
+
+export type CreateTransactionHistoryBodySchemaType = InferType<
+  typeof CreateTransactionHistoryBodySchema
+>;

@@ -1,5 +1,5 @@
-import { TransactionStatusEnum } from "@systems/utils";
-import { InferType, mixed, number, object } from "yup";
+import { TransactionStatusEnum, objectIdValidator } from "@systems/utils";
+import { InferType, mixed, number, object, string } from "yup";
 
 export const CreateTransactionHistoryBodySchema = object().shape({
   status: mixed<TransactionStatusEnum>()
@@ -8,6 +8,23 @@ export const CreateTransactionHistoryBodySchema = object().shape({
   amount: number().required(),
 });
 
+export const UpdateTransactionHistoryBodySchema = object().shape({
+  status: mixed<TransactionStatusEnum>()
+    .oneOf(Object.values(TransactionStatusEnum))
+    .required(),
+  amount: number().required(),
+});
+
+export const CreateTransactionHistoryParamsSchema = object().shape({
+  userId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
 export type CreateTransactionHistoryBodySchemaType = InferType<
   typeof CreateTransactionHistoryBodySchema
+>;
+
+export type CreateTransactionHistoryParamsSchemaType = InferType<
+  typeof CreateTransactionHistoryParamsSchema
 >;
