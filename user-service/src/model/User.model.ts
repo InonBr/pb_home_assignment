@@ -1,3 +1,4 @@
+import { collectionName } from "@config";
 import mongoose from "mongoose";
 
 const User = new mongoose.Schema({
