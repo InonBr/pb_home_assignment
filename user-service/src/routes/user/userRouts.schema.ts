@@ -1,5 +1,4 @@
 import { objectIdValidator } from "@systems/utils";
-import { CreateTransactionHistoryBodySchema } from "routes/transactionHistory/transactionHistoryRoutes.schema";
 import { InferType, number, object, string } from "yup";
 
 export const CreateNewUserSchema = object().shape({
@@ -27,7 +26,3 @@ export type ValidUserIdParamsSchemaType = InferType<
 
 export type CreateNewUserSchemaType = InferType<typeof CreateNewUserSchema>;
 export type UpdateUserSchemaType = InferType<typeof UpdateUserSchema>;
-
-export type CreateTransactionHistoryBodySchemaType = InferType<
-  typeof CreateTransactionHistoryBodySchema
->;
