@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  mongodb-user:
+    image: mongo:latest
+    container_name: mongodb-user
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ./userDb/db:/userDb/db
+
+  mongodb-transaction:
+    image: mongo:latest
+    container_name: mongodb-transaction
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ./transactionDb/db:/transactionDb/db
+
+  mongodb-group:
+    image: mongo:latest
+    container_name: mongodb-group
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ./groupDb/db:/groupDb/db
