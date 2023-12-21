@@ -7,6 +7,7 @@ import {
   CreateTransactionHistoryParamsSchemaType,
 } from "./transactionHistoryRoutes.schema";
 import { findUserById } from "@repositories/user/userRepository";
+import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
 
 const transactionHistoryRoutes = Router();
 
@@ -33,11 +34,9 @@ transactionHistoryRoutes.post(
         });
       }
 
-      //   return res.status(201).json({
-      //     id: await createNewUser({ email, firstName, lastName }),
-      //   });
-
-      return res.status(201).json({ amount, status, userId });
+      return res.status(201).json({
+        id: await createNewTransactionHistory({ amount, status, userId }),
+      });
     } catch (err) {
       console.log(err);
 

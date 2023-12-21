@@ -19,7 +19,5 @@ export const createNewUser = async ({
 
   await newUserData.save();
 
-  const { _id } = newUserData;
-
-  return _id;
+  return newUserData._id;
 };
