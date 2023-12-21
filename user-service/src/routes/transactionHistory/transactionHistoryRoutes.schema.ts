@@ -1,6 +1,5 @@
 import { TransactionStatusEnum } from "@systems/utils";
-import { InferType, mixed, number, object, string } from "yup";
-import mongoose from "mongoose";
+import { InferType, mixed, number, object } from "yup";
 
 export const CreateTransactionHistoryBodySchema = object().shape({
   status: mixed<TransactionStatusEnum>()
@@ -9,17 +8,6 @@ export const CreateTransactionHistoryBodySchema = object().shape({
   amount: number().required(),
 });
 
-export const CreateTransactionHistoryParamsSchema = object().shape({
-  userId: string()
-    .test(
-      (value) => value === undefined || mongoose.Types.ObjectId.isValid(value)
-    )
-    .required(),
-});
-
 export type CreateTransactionHistoryBodySchemaType = InferType<
   typeof CreateTransactionHistoryBodySchema
->;
-export type CreateTransactionHistoryParamsSchemaType = InferType<
-  typeof CreateTransactionHistoryParamsSchema
 >;

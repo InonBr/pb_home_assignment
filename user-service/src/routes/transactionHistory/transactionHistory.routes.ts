@@ -3,11 +3,13 @@ import { Request, Response, Router } from "express";
 import {
   CreateTransactionHistoryBodySchema,
   CreateTransactionHistoryBodySchemaType,
-  CreateTransactionHistoryParamsSchema,
-  CreateTransactionHistoryParamsSchemaType,
 } from "./transactionHistoryRoutes.schema";
 import { findUserById } from "@repositories/user/userRepository";
 import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
+import {
+  CreateTransactionHistoryParamsSchema,
+  CreateTransactionHistoryParamsSchemaType,
+} from "@systems/utils";
 
 const transactionHistoryRoutes = Router();
 

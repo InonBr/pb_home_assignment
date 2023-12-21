@@ -1,5 +1,8 @@
 import UserModel from "@model/User.model";
-import { CreateNewUserInterface } from "./userRepository.model";
+import {
+  CreateNewUserInterface,
+  UpdateUserInterface,
+} from "./userRepository.model";
 
 export const findUserByEmail = async (email: string) =>
   UserModel.findOne({ email });
@@ -21,3 +24,11 @@ export const createNewUser = async ({
 
   return newUserData._id;
 };
+
+export const updateUserData = ({
+  balance,
+  email,
+  firstName,
+  lastName,
+  userId,
+}: UpdateUserInterface) => {};
