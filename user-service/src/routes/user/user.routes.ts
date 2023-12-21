@@ -20,15 +20,13 @@ userRoutes.post(
       const user = await findUserByEmail(email);
 
       if (user) {
-        return res.status(404).json({
+        return res.status(400).json({
           msg: "user already exists",
         });
       }
 
-      const id = await createNewUser({ email, firstName, lastName });
-
       return res.status(201).json({
-        id,
+        id: await createNewUser({ email, firstName, lastName }),
       });
     } catch (err) {
       console.log(err);
