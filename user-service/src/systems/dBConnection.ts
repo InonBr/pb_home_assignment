@@ -1,8 +1,6 @@
 import { connectionString } from "@config/index";
 import mongoose from "mongoose";
 
-console.log("connectionString", connectionString);
-
 const connectDB = async () => {
   try {
     mongoose.set("strictQuery", false);
