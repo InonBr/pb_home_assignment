@@ -10,7 +10,7 @@ export const validateSchema = (
       const dataToValidate = getDataToValidate(req, test);
 
       await schema.validate(dataToValidate, {
-        abortEarly: false,
+        abortEarly: true,
         stripUnknown: true,
       });
 

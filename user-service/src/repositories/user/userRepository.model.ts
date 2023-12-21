@@ -1,5 +1,3 @@
-import { number } from "yup";
-
 export interface CreateNewUserInterface {
   email: string;
   firstName: string;

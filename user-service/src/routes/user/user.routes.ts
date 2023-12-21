@@ -4,6 +4,7 @@ import {
   createNewUser,
   findUserByEmail,
   findUserById,
+  updateUserData,
 } from "@repositories/user/userRepository";
 import {
   CreateNewUserSchema,
@@ -69,9 +70,24 @@ userRoutes.put(
       }
 
       const { firstName, lastName, balance, email } = user;
+      const newBalance = balance + (amount ? amount : 0);
+
+      if (newBalance < 0) {
+        return res.status(400).json({
+          msg: "balance cannot be less then 0, transaction denied",
+        });
+      }
+
+      await updateUserData({
+        balance: newBalance,
+        firstName: newFirstName || firstName,
+        lastName: newLastName || lastName,
+        email: newEmail || email,
+        userId,
+      });
 
       return res.status(201).json({
-        id: "Dsadsa",
+        id: userId,
       });
     } catch (err) {
       console.log(err);

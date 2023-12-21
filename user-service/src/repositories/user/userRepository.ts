@@ -25,10 +25,17 @@ export const createNewUser = async ({
   return newUserData._id;
 };
 
-export const updateUserData = ({
+export const updateUserData = async ({
   balance,
   email,
   firstName,
   lastName,
   userId,
-}: UpdateUserInterface) => {};
+}: UpdateUserInterface) => {
+  await UserModel.findOneAndUpdate(
+    {
+      _id: userId,
+    },
+    { balance, email, firstName, lastName }
+  );
+};
