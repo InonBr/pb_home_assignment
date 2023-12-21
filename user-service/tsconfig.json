@@ -13,7 +13,8 @@
     "types": ["node"],
     "baseUrl": "src",
     "paths": {
-      "@config": ["config/index"]
+      "@config": ["config/index"],
+      "@systems/*": ["systems/*"]
     }
   },
   "include": ["./src", "./src/**/*.ts"],
