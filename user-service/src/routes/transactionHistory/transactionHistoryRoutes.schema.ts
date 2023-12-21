@@ -21,10 +21,20 @@ export const CreateTransactionHistoryParamsSchema = object().shape({
     .required(),
 });
 
+export const UpdateTransactionHistoryParamsSchema = object().shape({
+  transactionId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
 export type CreateTransactionHistoryBodySchemaType = InferType<
   typeof CreateTransactionHistoryBodySchema
 >;
 
 export type CreateTransactionHistoryParamsSchemaType = InferType<
   typeof CreateTransactionHistoryParamsSchema
+>;
+
+export type UpdateTransactionHistoryParamsSchemaType = InferType<
+  typeof UpdateTransactionHistoryParamsSchema
 >;

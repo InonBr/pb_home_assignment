@@ -5,6 +5,8 @@ import {
   CreateTransactionHistoryBodySchemaType,
   CreateTransactionHistoryParamsSchema,
   CreateTransactionHistoryParamsSchemaType,
+  UpdateTransactionHistoryParamsSchema,
+  UpdateTransactionHistoryParamsSchemaType,
 } from "./transactionHistoryRoutes.schema";
 import { findUserById } from "@repositories/user/userRepository";
 import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
@@ -47,40 +49,41 @@ transactionHistoryRoutes.post(
   }
 );
 
-// transactionHistoryRoutes.put(
-//   "/updateTransactionHistory/:transactionId",
-//   validateSchema(CreateTransactionHistoryBodySchema),
-//   validateSchema(CreateTransactionHistoryParamsSchema, "p"),
-//   async (
-//     req: Request<
-//       CreateTransactionHistoryParamsSchemaType,
-//       {},
-//       CreateTransactionHistoryBodySchemaType
-//     >,
-//     res: Response
-//   ) => {
-//     try {
-//       const { amount, status } = req.body;
-//       const { userId } = req.params;
-//       const user = await findUserById(userId);
+transactionHistoryRoutes.put(
+  "/updateTransactionHistory/:transactionId",
+  validateSchema(CreateTransactionHistoryBodySchema),
+  validateSchema(UpdateTransactionHistoryParamsSchema, "p"),
+  async (
+    req: Request<
+      UpdateTransactionHistoryParamsSchemaType,
+      {},
+      CreateTransactionHistoryBodySchemaType
+    >,
+    res: Response
+  ) => {
+    try {
+      const { amount, status } = req.body;
+      const { transactionId } = req.params;
 
-//       if (!user) {
-//         return res.status(404).json({
-//           msg: "user not found",
-//         });
-//       }
+      // const user = await findUserById(userId);
 
-//       return res.status(201).json({
-//         id: "dsa",
-//       });
-//     } catch (err) {
-//       console.log(err);
+      // if (!user) {
+      //   return res.status(404).json({
+      //     msg: "user not found",
+      //   });
+      // }
 
-//       return res.status(500).json({
-//         msg: "Internal Server Error.",
-//       });
-//     }
-//   }
-// );
+      return res.status(201).json({
+        id: "dsa",
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
 
 export default transactionHistoryRoutes;
