@@ -14,8 +14,10 @@
     "baseUrl": "src",
     "paths": {
       "@config": ["config/index"],
+      "@middleware/*": ["systems/middleware/*"],
       "@systems/*": ["systems/*"],
-      "@systems/middleware": ["systems/middleware/"]
+      "@repositories/*": ["repositories/*"],
+      "@model/*": ["model/*"]
     }
   },
   "include": ["./src", "./src/**/*.ts"],

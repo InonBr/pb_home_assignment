@@ -1,5 +1,5 @@
-import { validateSchema } from "@systems/middleware/validateSchema.middleware";
 import { Request, Response, Router } from "express";
+import { validateSchema } from "@middleware/validateSchema.middleware";
 import {
   CreateNewUserSchema,
   CreateNewUserSchemaType,
