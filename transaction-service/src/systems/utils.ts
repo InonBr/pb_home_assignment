@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { InferType, object, string } from "yup";
 
 export enum TransactionStatusEnum {
   WAITING = "waiting",

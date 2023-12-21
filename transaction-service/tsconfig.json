@@ -13,7 +13,9 @@
     "types": ["node"],
     "baseUrl": "src",
     "paths": {
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@systems/*": ["systems/*"],
+      "@model/*": ["model/*"]
     }
   },
   "include": ["./src", "./src/**/*.ts"],
