@@ -4,6 +4,8 @@ import { CreateNewUserInterface } from "./userRepository.model";
 export const findUserByEmail = async (email: string) =>
   UserModel.findOne({ email });
 
+export const findUserById = async (id: string) => UserModel.findById(id);
+
 export const createNewUser = async ({
   email,
   firstName,
