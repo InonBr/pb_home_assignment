@@ -1,3 +1,6 @@
 /groupDb
 /userDb
 /transactionDb
+
+*/node_modules
+*/.env
