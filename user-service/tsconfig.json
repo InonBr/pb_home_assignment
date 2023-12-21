@@ -13,7 +13,7 @@
     "types": ["node"],
     "baseUrl": "src",
     "paths": {
-      "@config": ["config/index"],
+      "@config/*": ["config/*"],
       "@middleware/*": ["systems/middleware/*"],
       "@systems/*": ["systems/*"],
       "@repositories/*": ["repositories/*"],

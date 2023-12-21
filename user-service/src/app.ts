@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import cors from "cors";
-import { port } from "@config";
+import { port } from "@config/index";
 import connectDB from "@systems/dBConnection";
 import userRoutes from "routes/user/user.routes";
 import transactionHistoryRoutes from "routes/transactionHistory/transactionHistory.routes";
@@ -12,6 +12,15 @@ app.use(express.json());
 
 app.use("/api/user", userRoutes);
 app.use("/api/transactionHistory", transactionHistoryRoutes);
+
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
+console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
 
 connectDB().then(() => {
   console.log("🔵 MongoDB connected...");

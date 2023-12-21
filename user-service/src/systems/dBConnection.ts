@@ -1,4 +1,4 @@
-import { connectionString } from "@config";
+import { connectionString } from "@config/index";
 import mongoose from "mongoose";
 
 console.log("connectionString", connectionString);
