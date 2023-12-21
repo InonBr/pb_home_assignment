@@ -1,18 +1,15 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import { port } from "@config";
 import connectDB from "@systems/dBConnection";
-
-console.log(port);
+import userRoutes from "routes/user/user.routes";
 
 const app: Express = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
+app.use("/api/user", userRoutes);
 
 connectDB().then(() => {
   console.log("🔵 MongoDB connected...");
