@@ -15,7 +15,9 @@
     "paths": {
       "@config/*": ["config/*"],
       "@systems/*": ["systems/*"],
-      "@model/*": ["model/*"]
+      "@model/*": ["model/*"],
+      "@middleware/*": ["systems/middleware/*"],
+      "@repositories/*": ["repositories/*"]
     }
   },
   "include": ["./src", "./src/**/*.ts"],
