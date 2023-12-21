@@ -13,15 +13,6 @@ app.use(express.json());
 app.use("/api/user", userRoutes);
 app.use("/api/transactionHistory", transactionHistoryRoutes);
 
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-console.log("🟢 🟢 🟢 🟢 🟢 🟢 ");
-
 connectDB().then(() => {
   console.log("🔵 MongoDB connected...");
   app.listen(port, () => {

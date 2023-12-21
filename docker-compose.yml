@@ -42,6 +42,6 @@ services:
       dockerfile: ./Dockerfile
     image: "user-service"
     environment:
-      NODE_ENV: user_service_docker
+      USER_ENV: user_service_docker
     ports:
       - "5001:5001"
