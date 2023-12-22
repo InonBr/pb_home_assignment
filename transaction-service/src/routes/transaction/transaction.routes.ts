@@ -24,6 +24,7 @@ import {
   createNewTransactionHistory,
   updateTransactionHistoryByTransactionId,
 } from "@repositories/transactionHistory/transactionHistoryRepository";
+import { sendNotification } from "@repositories/notification/notificationRepository";
 
 const transactionRoutes = Router();
 
@@ -79,7 +80,14 @@ transactionRoutes.post(
         }),
       ]);
 
-      // send massage to Notification Service
+      // send massage to notification service
+      const { firstName, lastName, email } = receiverInfo;
+      await sendNotification({
+        amount,
+        name: `${firstName} ${lastName}`,
+        userEmail: email,
+        type: "income",
+      });
 
       return res.status(201).json({
         id: transactionId,
@@ -162,6 +170,15 @@ transactionRoutes.post(
           ? updateUserBalance(fromId, amount * -1)
           : updateUserBalance(fromId, amount * -1),
       ]);
+
+      // send massage to notification service
+      const { firstName, lastName, email } = payingInfo;
+      await sendNotification({
+        amount,
+        name: `${firstName} ${lastName}`,
+        userEmail: email,
+        type: "outcome",
+      });
 
       return res.status(201).json({
         msg: `transaction is ${TransactionStatusEnum.DONE}`,

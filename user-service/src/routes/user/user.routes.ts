@@ -97,11 +97,19 @@ userRoutes.get(
   "/getUser/:userId",
   validateSchema(ValidUserIdParamsSchema, "p"),
   async (req: Request<ValidUserIdParamsSchemaType, {}, {}>, res: Response) => {
-    const { userId } = req.params;
+    try {
+      const { userId } = req.params;
 
-    return res.status(200).json({
-      user: await findUserById(userId),
-    });
+      return res.status(200).json({
+        user: await findUserById(userId),
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
   }
 );
 
