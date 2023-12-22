@@ -3,7 +3,10 @@ import {
   CreateNewTransactionInterface,
   ValidateTransactionInterface,
 } from "./transaction.model";
-import { TransactionStatusEnum } from "@systems/utils";
+import {
+  TransactionDataInterface,
+  TransactionStatusEnum,
+} from "@systems/utils";
 
 export const createNewTransaction = async ({
   amount,
@@ -26,6 +29,9 @@ export const createNewTransaction = async ({
   return newTransactionData._id;
 };
 
+export const findTransactionById = async (transactionId: string) =>
+  TransactionModel.findById(transactionId);
+
 export const validateTransaction = ({
   amount,
   payingInfo,
@@ -39,6 +45,23 @@ export const validateTransaction = ({
     return {
       statusCode: 400,
       msg: "amount to pay cannot be grater then the balance",
+    };
+  }
+
+  return null;
+};
+
+export const validateTransactionAcceptance = (
+  transaction: TransactionDataInterface | null
+) => {
+  if (!transaction) {
+    return { statusCode: 404, msg: "transaction not found" };
+  }
+
+  if (transaction.status !== TransactionStatusEnum.WAITING) {
+    return {
+      statusCode: 400,
+      msg: `transaction was already ${transaction.status}`,
     };
   }
 

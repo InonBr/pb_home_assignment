@@ -2,7 +2,7 @@ import { TransactionStatusEnum, objectIdValidator } from "@systems/utils";
 import { InferType, boolean, mixed, number, object, string } from "yup";
 
 export const CreateTransactionHistoryBodySchema = object().shape({
-  amount: number().required(),
+  amount: number().min(1).required(),
   toGroup: boolean().required(),
   fromGroup: boolean().required(),
   fromId: string()
@@ -13,6 +13,24 @@ export const CreateTransactionHistoryBodySchema = object().shape({
     .required(),
 });
 
+export const AcceptTransactionBodySchema = object().shape({
+  updatedStatus: mixed<TransactionStatusEnum>()
+    .oneOf(Object.values(TransactionStatusEnum))
+    .required(),
+});
+
+export const AcceptTransactionParamsSchema = object().shape({
+  transactionId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
 export type CreateTransactionHistoryBodySchemaType = InferType<
   typeof CreateTransactionHistoryBodySchema
+>;
+export type AcceptTransactionBodySchemaType = InferType<
+  typeof AcceptTransactionBodySchema
+>;
+export type AcceptTransactionParamsSchemaType = InferType<
+  typeof AcceptTransactionParamsSchema
 >;

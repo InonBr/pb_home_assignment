@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 
 export enum TransactionStatusEnum {
   WAITING = "waiting",
@@ -13,6 +13,17 @@ export interface UserDataInterface {
   email: string;
   balance: number;
   creationDate: string;
+}
+
+export interface TransactionDataInterface extends Document {
+  fromId: string;
+  toId: string;
+  toGroup: boolean;
+  fromGroup: boolean;
+  status: "waiting" | "done" | "canceled";
+  amount: number;
+  creationDate: Date;
+  lastUpdatedDate: Date;
 }
 
 export const objectIdValidator = (value: string | undefined) =>

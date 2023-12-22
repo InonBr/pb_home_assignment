@@ -9,3 +9,14 @@ export const getUserById = async (userId: string) => {
 
   return data.user;
 };
+
+export const updateUserBalance = async (userId: string, amount: number) => {
+  const { data } = (await axios.put(
+    `${userServiceUrl}api/user/updateUser/${userId}`,
+    {
+      amount,
+    }
+  )) as AxiosResponse<{ id: string }>;
+
+  return data.id;
+};
