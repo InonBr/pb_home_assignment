@@ -6,6 +6,10 @@ const TransactionHistory = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  transactionId: {
+    trim: true,
+    required: true,
+  },
   status: {
     type: String,
     enum: ["waiting", "done", "canceled"],

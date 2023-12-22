@@ -12,7 +12,6 @@ export const UpdateTransactionHistoryBodySchema = object().shape({
   status: mixed<TransactionStatusEnum>()
     .oneOf(Object.values(TransactionStatusEnum))
     .required(),
-  amount: number().required(),
 });
 
 export const CreateTransactionHistoryParamsSchema = object().shape({
@@ -37,4 +36,8 @@ export type CreateTransactionHistoryParamsSchemaType = InferType<
 
 export type UpdateTransactionHistoryParamsSchemaType = InferType<
   typeof UpdateTransactionHistoryParamsSchema
+>;
+
+export type UpdateTransactionHistoryBodySchemaType = InferType<
+  typeof UpdateTransactionHistoryBodySchema
 >;

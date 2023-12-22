@@ -1,15 +1,34 @@
 import TransactionHistoryModel from "@model/TransactionHistory.model";
-import { CreateNewTransactionHistory } from "./transactionHistory.model";
+import {
+  CreateNewTransactionHistoryInterface,
+  StatusUpdateInterface,
+} from "./transactionHistory.model";
+
+export const findTransactionHistory = async (transactionId: string) =>
+  TransactionHistoryModel.findOne({ transactionId });
+
+export const updateTransactionHistoryByTransactionId = async ({
+  status,
+  transactionId,
+}: StatusUpdateInterface) =>
+  TransactionHistoryModel.findOneAndUpdate(
+    {
+      transactionId,
+    },
+    { status }
+  );
 
 export const createNewTransactionHistory = async ({
   amount,
   status,
   userId,
-}: CreateNewTransactionHistory) => {
+  transactionId,
+}: CreateNewTransactionHistoryInterface) => {
   const newTransactionData = new TransactionHistoryModel({
     amount,
     status,
     userId,
+    transactionId,
   });
 
   await newTransactionData.save();
