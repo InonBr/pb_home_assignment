@@ -3,30 +3,44 @@ import { Request, Response, Router } from "express";
 import {
   CreateTransactionHistoryBodySchema,
   CreateTransactionHistoryBodySchemaType,
-  CreateTransactionHistoryParamsSchema,
-  CreateTransactionHistoryParamsSchemaType,
-  UpdateTransactionHistoryBodySchema,
-  UpdateTransactionHistoryBodySchemaType,
-  UpdateTransactionHistoryParamsSchema,
-  UpdateTransactionHistoryParamsSchemaType,
-} from "./transactionHistoryRoutes.schema";
+} from "./transactionRoutes.schema";
 import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
 import { getUserById } from "@repositories/user/userRepository";
 
-const transactionHistoryRoutes = Router();
+const transactionRoutes = Router();
 
-// transactionHistoryRoutes.post(
-//   "/createNewTransactionHistory/:userId",
-//   validateSchema(CreateTransactionHistoryBodySchema),
-//   validateSchema(CreateTransactionHistoryParamsSchema, "p"),
-//   async (
-//     req: Request<
-//       CreateTransactionHistoryParamsSchemaType,
-//       {},
-//       CreateTransactionHistoryBodySchemaType
-//     >,
-//     res: Response
-//   ) => {
+transactionRoutes.post(
+  "/createNewTransaction",
+  validateSchema(CreateTransactionHistoryBodySchema),
+  async (
+    req: Request<{}, {}, CreateTransactionHistoryBodySchemaType>,
+    res: Response
+  ) => {
+    try {
+      const { amount, fromGroup, fromId, toGroup, toId } = req.body;
+      const [receiverInfo, payingInfo] = await Promise.all([
+        toGroup ? getUserById(toId) : getUserById(toId),
+        fromGroup ? getUserById(fromId) : getUserById(fromId),
+      ]);
+
+      if (!receiverInfo || !payingInfo) {
+        return res.status(404).json({
+          msg: "user not found",
+        });
+      }
+
+      return res.status(201).json({
+        id: "dsadsa",
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
 //     try {
 //       const { amount, status } = req.body;
 //       const { userId } = req.params;
@@ -92,4 +106,4 @@ const transactionHistoryRoutes = Router();
 //   }
 // );
 
-export default transactionHistoryRoutes;
+export default transactionRoutes;

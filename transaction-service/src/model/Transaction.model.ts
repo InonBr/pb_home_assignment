@@ -1,23 +1,27 @@
 import mongoose from "mongoose";
 
-const TransactionHistory = new mongoose.Schema({
-  userId: {
+const Transaction = new mongoose.Schema({
+  fromId: {
     type: String,
     trim: true,
     required: true,
   },
-  transactionId: {
+  toId: {
+    type: String,
     trim: true,
+    required: true,
+  },
+  toGroup: {
+    type: Boolean,
+    required: true,
+  },
+  fromGroup: {
+    type: Boolean,
     required: true,
   },
   status: {
     type: String,
     enum: ["waiting", "done", "canceled"],
-    required: true,
-  },
-  type: {
-    type: String,
-    enum: ["outcome", "income"],
     required: true,
   },
   amount: {
@@ -34,4 +38,4 @@ const TransactionHistory = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("transactionHistory", TransactionHistory);
+export default mongoose.model("transaction", Transaction);
