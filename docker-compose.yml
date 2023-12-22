@@ -34,30 +34,42 @@ services:
     volumes:
       - ./groupDb/db:/groupDb/db
 
-  # user_service_server:
-  #   container_name: user_service_server
-  #   env_file: "./user-service/.env"
-  #   build:
-  #     context: ./user-service
-  #     dockerfile: ./Dockerfile
-  #   image: "user-service"
-  #   environment:
-  #     USER_ENV: user_service_docker
-  #   ports:
-  #     - "5001:5001"
-  #   depends_on:
-  #     - mongodb-user
+  user_service_server:
+    container_name: user_service_server
+    env_file: "./user-service/.env"
+    build:
+      context: ./user-service
+      dockerfile: ./Dockerfile
+    image: "user-service"
+    environment:
+      USER_ENV: user_service_docker
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb-user
 
-  # transaction_service_server:
-  #   container_name: transaction_service_server
-  #   env_file: "./transaction-service/.env"
-  #   build:
-  #     context: ./transaction-service
-  #     dockerfile: ./Dockerfile
-  #   image: "transaction-service"
-  #   environment:
-  #     TRANSACTIONS_ENV: transaction_service_docker
-  #   ports:
-  #     - "5002:5002"
-  #   depends_on:
-  #     - mongodb-transaction
+  transaction_service_server:
+    container_name: transaction_service_server
+    env_file: "./transaction-service/.env"
+    build:
+      context: ./transaction-service
+      dockerfile: ./Dockerfile
+    image: "transaction-service"
+    environment:
+      TRANSACTIONS_ENV: transaction_service_docker
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mongodb-transaction
+
+  notification_service_server:
+    container_name: notification_service_server
+    env_file: "./notification-service/.env"
+    build:
+      context: ./notification-service
+      dockerfile: ./Dockerfile
+    image: "notification-service"
+    environment:
+      TRANSACTIONS_ENV: notification_service_docker
+    ports:
+      - "5003:5003"
