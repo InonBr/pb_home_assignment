@@ -20,7 +20,10 @@ import {
   validateTransactionAcceptance,
 } from "@repositories/transaction/transactionRepository";
 import { TransactionStatusEnum } from "@systems/utils";
-import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
+import {
+  createNewTransactionHistory,
+  updateTransactionHistoryByTransactionId,
+} from "@repositories/transactionHistory/transactionHistoryRepository";
 
 const transactionRoutes = Router();
 
@@ -76,6 +79,8 @@ transactionRoutes.post(
         }),
       ]);
 
+      // send massage to Notification Service
+
       return res.status(201).json({
         id: transactionId,
       });
@@ -118,6 +123,10 @@ transactionRoutes.post(
       }
 
       await updateTransaction({ updatedStatus, transactionId });
+      await updateTransactionHistoryByTransactionId({
+        status: updatedStatus,
+        transactionId,
+      });
 
       if (updatedStatus === TransactionStatusEnum.CANCELED) {
         return res.status(201).json({

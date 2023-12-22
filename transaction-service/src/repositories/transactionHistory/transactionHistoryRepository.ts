@@ -11,7 +11,7 @@ export const updateTransactionHistoryByTransactionId = async ({
   status,
   transactionId,
 }: StatusUpdateInterface) =>
-  TransactionHistoryModel.findOneAndUpdate(
+  TransactionHistoryModel.updateMany(
     {
       transactionId,
     },
