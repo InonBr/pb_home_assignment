@@ -8,8 +8,8 @@ import {
   UpdateTransactionHistoryParamsSchema,
   UpdateTransactionHistoryParamsSchemaType,
 } from "./transactionHistoryRoutes.schema";
-// import { findUserById } from "@repositories/user/userRepository";
 import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
+import { getUserById } from "@repositories/user/userRepository";
 
 const transactionHistoryRoutes = Router();
 
@@ -28,20 +28,16 @@ transactionHistoryRoutes.post(
     try {
       const { amount, status } = req.body;
       const { userId } = req.params;
-      // const user = await findUserById(userId);
+      const user = await getUserById(userId);
 
-      // if (!user) {
-      //   return res.status(404).json({
-      //     msg: "user not found",
-      //   });
-      // }
-
-      // return res.status(201).json({
-      //   id: await createNewTransactionHistory({ amount, status, userId }),
-      // });
+      if (!user) {
+        return res.status(404).json({
+          msg: "user not found",
+        });
+      }
 
       return res.status(201).json({
-        id: "dsadsada",
+        id: await createNewTransactionHistory({ amount, status, userId }),
       });
     } catch (err) {
       console.log(err);

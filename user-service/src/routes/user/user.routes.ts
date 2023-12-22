@@ -93,4 +93,16 @@ userRoutes.put(
   }
 );
 
+userRoutes.get(
+  "/getUser/:userId",
+  validateSchema(ValidUserIdParamsSchema, "p"),
+  async (req: Request<ValidUserIdParamsSchemaType, {}, {}>, res: Response) => {
+    const { userId } = req.params;
+
+    return res.status(200).json({
+      user: await findUserById(userId),
+    });
+  }
+);
+
 export default userRoutes;

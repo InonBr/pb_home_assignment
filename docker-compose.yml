@@ -45,3 +45,5 @@ services:
   #     USER_ENV: user_service_docker
   #   ports:
   #     - "5001:5001"
+  #   depends_on:
+  #     - mongodb-user
