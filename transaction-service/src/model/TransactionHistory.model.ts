@@ -7,6 +7,7 @@ const TransactionHistory = new mongoose.Schema({
     required: true,
   },
   transactionId: {
+    type: String,
     trim: true,
     required: true,
   },

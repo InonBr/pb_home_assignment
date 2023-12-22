@@ -23,12 +23,14 @@ export const createNewTransactionHistory = async ({
   status,
   userId,
   transactionId,
+  type,
 }: CreateNewTransactionHistoryInterface) => {
   const newTransactionData = new TransactionHistoryModel({
     amount,
     status,
     userId,
     transactionId,
+    type,
   });
 
   await newTransactionData.save();

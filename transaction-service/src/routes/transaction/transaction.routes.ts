@@ -15,9 +15,12 @@ import {
 import {
   createNewTransaction,
   findTransactionById,
+  updateTransaction,
   validateTransaction,
   validateTransactionAcceptance,
 } from "@repositories/transaction/transactionRepository";
+import { TransactionStatusEnum } from "@systems/utils";
+import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
 
 const transactionRoutes = Router();
 
@@ -48,14 +51,33 @@ transactionRoutes.post(
         });
       }
 
-      return res.status(201).json({
-        id: await createNewTransaction({
+      const transactionId = await createNewTransaction({
+        amount,
+        fromGroup,
+        fromId,
+        toGroup,
+        toId,
+      });
+
+      await Promise.all([
+        createNewTransactionHistory({
           amount,
-          fromGroup,
-          fromId,
-          toGroup,
-          toId,
+          status: TransactionStatusEnum.WAITING,
+          transactionId: transactionId.toString(),
+          type: "outcome",
+          userId: fromId,
         }),
+        createNewTransactionHistory({
+          amount,
+          status: TransactionStatusEnum.WAITING,
+          transactionId: transactionId.toString(),
+          type: "income",
+          userId: toId,
+        }),
+      ]);
+
+      return res.status(201).json({
+        id: transactionId,
       });
     } catch (err) {
       console.log(err);
@@ -83,12 +105,23 @@ transactionRoutes.post(
       const { updatedStatus } = req.body;
       const { transactionId } = req.params;
       const transaction = await findTransactionById(transactionId);
-      const validate = validateTransactionAcceptance(transaction);
+      const validate = validateTransactionAcceptance(
+        transaction,
+        updatedStatus
+      );
 
       if (validate) {
         const { msg, statusCode } = validate;
         return res.status(statusCode).json({
           msg,
+        });
+      }
+
+      await updateTransaction({ updatedStatus, transactionId });
+
+      if (updatedStatus === TransactionStatusEnum.CANCELED) {
+        return res.status(201).json({
+          msg: `transaction was ${TransactionStatusEnum.CANCELED}`,
         });
       }
 
@@ -122,7 +155,7 @@ transactionRoutes.post(
       ]);
 
       return res.status(201).json({
-        msg: "dsadas",
+        msg: `transaction is ${TransactionStatusEnum.DONE}`,
       });
     } catch (err) {
       console.log(err);

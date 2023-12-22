@@ -1,4 +1,4 @@
-import { UserDataInterface } from "@systems/utils";
+import { TransactionStatusEnum, UserDataInterface } from "@systems/utils";
 
 export interface ValidateTransactionInterface {
   receiverInfo: UserDataInterface | null;
@@ -14,3 +14,7 @@ export interface CreateNewTransactionInterface {
   toId: string;
 }
 
+export interface UpdateTransactionInterface {
+  transactionId: string;
+  updatedStatus: TransactionStatusEnum;
+}

@@ -1,6 +1,7 @@
 import TransactionModel from "@model/Transaction.model";
 import {
   CreateNewTransactionInterface,
+  UpdateTransactionInterface,
   ValidateTransactionInterface,
 } from "./transaction.model";
 import {
@@ -29,6 +30,12 @@ export const createNewTransaction = async ({
   return newTransactionData._id;
 };
 
+export const updateTransaction = ({
+  updatedStatus,
+  transactionId,
+}: UpdateTransactionInterface) =>
+  TransactionModel.updateOne({ _id: transactionId }, { status: updatedStatus });
+
 export const findTransactionById = async (transactionId: string) =>
   TransactionModel.findById(transactionId);
 
@@ -52,10 +59,18 @@ export const validateTransaction = ({
 };
 
 export const validateTransactionAcceptance = (
-  transaction: TransactionDataInterface | null
+  transaction: TransactionDataInterface | null,
+  updatedStatus: TransactionStatusEnum
 ) => {
   if (!transaction) {
     return { statusCode: 404, msg: "transaction not found" };
+  }
+
+  if (updatedStatus === TransactionStatusEnum.WAITING) {
+    return {
+      statusCode: 400,
+      msg: "cannot reopen transactions",
+    };
   }
 
   if (transaction.status !== TransactionStatusEnum.WAITING) {

@@ -5,6 +5,7 @@ export interface CreateNewTransactionHistoryInterface {
   status: TransactionStatusEnum;
   userId: string;
   transactionId: string;
+  type: "outcome" | "income";
 }
 
 export interface StatusUpdateInterface
