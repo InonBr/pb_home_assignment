@@ -1,37 +1,46 @@
-import TransactionHistoryModel from "@model/TransactionHistory.model";
+import TransactionModel from "@model/Transaction.model";
 import {
-  CreateNewTransactionHistoryInterface,
-  StatusUpdateInterface,
-} from "./transactionHistory.model";
+  CreateNewTransactionInterface,
+  ValidateTransactionInterface,
+} from "./transaction.model";
+import { TransactionStatusEnum } from "@systems/utils";
 
-export const findTransactionHistory = async (transactionId: string) =>
-  TransactionHistoryModel.findOne({ transactionId });
-
-export const updateTransactionHistoryByTransactionId = async ({
-  status,
-  transactionId,
-}: StatusUpdateInterface) =>
-  TransactionHistoryModel.findOneAndUpdate(
-    {
-      transactionId,
-    },
-    { status, lastUpdatedDate: new Date() }
-  );
-
-export const createNewTransactionHistory = async ({
+export const createNewTransaction = async ({
   amount,
-  status,
-  userId,
-  transactionId,
-}: CreateNewTransactionHistoryInterface) => {
-  const newTransactionData = new TransactionHistoryModel({
+  fromGroup,
+  fromId,
+  toGroup,
+  toId,
+}: CreateNewTransactionInterface) => {
+  const newTransactionData = new TransactionModel({
     amount,
-    status,
-    userId,
-    transactionId,
+    fromGroup,
+    toGroup,
+    fromId,
+    status: TransactionStatusEnum.WAITING,
+    toId,
   });
 
   await newTransactionData.save();
 
   return newTransactionData._id;
+};
+
+export const validateTransaction = ({
+  amount,
+  payingInfo,
+  receiverInfo,
+}: ValidateTransactionInterface) => {
+  if (!receiverInfo || !payingInfo) {
+    return { statusCode: 404, msg: "user not found" };
+  }
+
+  if (payingInfo.balance < amount) {
+    return {
+      statusCode: 400,
+      msg: "amount to pay cannot be grater then the balance",
+    };
+  }
+
+  return null;
 };

@@ -9,6 +9,7 @@ const app: Express = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/transaction", transactionRoutes);
 app.use("/api/transactionHistory", transactionRoutes);
 
 connectDB().then(() => {

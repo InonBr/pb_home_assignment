@@ -4,8 +4,11 @@ import {
   CreateTransactionHistoryBodySchema,
   CreateTransactionHistoryBodySchemaType,
 } from "./transactionRoutes.schema";
-import { createNewTransactionHistory } from "@repositories/transactionHistory/transactionHistoryRepository";
 import { getUserById } from "@repositories/user/userRepository";
+import {
+  createNewTransaction,
+  validateTransaction,
+} from "@repositories/transaction/transactionRepository";
 
 const transactionRoutes = Router();
 
@@ -22,15 +25,28 @@ transactionRoutes.post(
         toGroup ? getUserById(toId) : getUserById(toId),
         fromGroup ? getUserById(fromId) : getUserById(fromId),
       ]);
+      const validation = validateTransaction({
+        payingInfo,
+        receiverInfo,
+        amount,
+      });
 
-      if (!receiverInfo || !payingInfo) {
-        return res.status(404).json({
-          msg: "user not found",
+      if (validation) {
+        const { msg, statusCode } = validation;
+
+        return res.status(statusCode).json({
+          msg,
         });
       }
 
       return res.status(201).json({
-        id: "dsadsa",
+        id: await createNewTransaction({
+          amount,
+          fromGroup,
+          fromId,
+          toGroup,
+          toId,
+        }),
       });
     } catch (err) {
       console.log(err);

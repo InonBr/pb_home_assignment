@@ -1,10 +1,5 @@
-export interface UserDataInterface {
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    balance: number;
-    creationDate: string;
-  };
+import { UserDataInterface } from "@systems/utils";
+
+export interface UserObjDataInterface {
+  user: UserDataInterface;
 }
