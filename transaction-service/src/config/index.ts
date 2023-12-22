@@ -9,3 +9,21 @@ export const userServiceUrl = process.env.TRANSACTIONS_ENV
 export const connectionString = process.env.TRANSACTIONS_ENV
   ? process.env.TRANSACTIONS_DOCKER_KEY
   : process.env.TRANSACTIONS_MONGO_KEY;
+
+const mandatoryVarArr = [
+  {
+    value: userServiceUrl,
+    envName: "USER_SERVICE_DOCKER_URL || USER_SERVICE_URL",
+  },
+  {
+    value: connectionString,
+    envName: "TRANSACTIONS_DOCKER_KEY || TRANSACTIONS_MONGO_KEY",
+  },
+];
+
+mandatoryVarArr.map(({ envName, value }) => {
+  if (!value) {
+    console.error(`🔴 environment variable :: ${envName} was not provided`);
+    process.exit(1);
+  }
+});
