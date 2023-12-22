@@ -1,6 +1,7 @@
 /groupDb
 /userDb
 /transactionDb
+/.vscode
 
 */node_modules
 */.env
