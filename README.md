@@ -1,5 +1,7 @@
 # pb_home_assignment
 
+Please clone this directory and read the manual in order to run the application.
+
 ## Run The Service Using `docker-compose`
 
 1. Copy the `.env` file from the email to the base directory of the services (the `.env` file is the same for all services for simplicity).
