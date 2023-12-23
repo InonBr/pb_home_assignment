@@ -3,6 +3,15 @@ import { CreateNewGroupInterface } from "./groupRepository.model";
 
 export const findGroupById = async (id: string) => GroupModel.findById(id);
 
+export const addUserToGroup = async (groupId: string, userId: string) =>
+  GroupModel.updateOne({ _id: groupId }, { $addToSet: { usersArr: userId } });
+
+export const isGroupAdmin = async (groupId: string, userId: string) =>
+  GroupModel.findOne({
+    _id: groupId,
+    adminsArr: userId,
+  });
+
 export const createNewGroup = async ({
   groupName,
   userId,

@@ -1,6 +1,8 @@
 import { validateSchema } from "@middleware/validateSchema.middleware";
 import { Request, Response, Router } from "express";
 import {
+  AddToGroupSchema,
+  AddToGroupSchemaType,
   CreateNewGroupSchema,
   CreateNewGroupSchemaType,
   ValidGroupAndUserIdParamsType,
@@ -11,8 +13,10 @@ import {
 } from "./groupRouts.schema";
 import { getUserById } from "@repositories/user/userRepository";
 import {
+  addUserToGroup,
   createNewGroup,
   findGroupById,
+  isGroupAdmin,
 } from "@repositories/group/groupRepository";
 
 const groupRoutes = Router();
@@ -40,6 +44,49 @@ groupRoutes.post(
 
       return res.status(201).json({
         id,
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
+
+groupRoutes.put(
+  "/addToGroup/:groupId",
+  validateSchema(AddToGroupSchema),
+  validateSchema(ValidGroupIdParamsSchema, "p"),
+  async (
+    req: Request<ValidGroupIdParamsSchemaType, {}, AddToGroupSchemaType>,
+    res: Response
+  ) => {
+    try {
+      const { adminId, userToAdd } = req.body;
+      const { groupId } = req.params;
+      const [user, group] = await Promise.all([
+        getUserById(userToAdd),
+        isGroupAdmin(groupId, adminId),
+      ]);
+
+      if (!user || !group) {
+        return res.status(404).json({
+          msg: "not found",
+        });
+      }
+
+      await addUserToGroup(groupId, userToAdd);
+
+      const { _id, usersArr, adminsArr, groupName } = group;
+      return res.status(200).json({
+        group: {
+          _id,
+          adminsArr,
+          groupName,
+          usersArr: [...usersArr, userToAdd],
+        },
       });
     } catch (err) {
       console.log(err);
@@ -82,11 +129,8 @@ groupRoutes.get(
     try {
       const { groupId, userId } = req.params;
 
-      console.log(groupId);
-      console.log(userId);
-
       return res.status(200).json({
-        group: "dsadsadas",
+        group: await isGroupAdmin(groupId, userId),
       });
     } catch (err) {
       console.log(err);

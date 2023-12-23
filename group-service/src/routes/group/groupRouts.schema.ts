@@ -17,7 +17,17 @@ export const ValidGroupIdParamsSchema = object().shape({
     .required(),
 });
 
+export const AddToGroupSchema = object().shape({
+  userToAdd: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+  adminId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
 export type CreateNewGroupSchemaType = InferType<typeof CreateNewGroupSchema>;
+export type AddToGroupSchemaType = InferType<typeof AddToGroupSchema>;
 export type ValidUserIdParamsSchemaType = InferType<
   typeof ValidUserIdParamsSchema
 >;
