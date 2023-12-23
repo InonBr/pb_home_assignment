@@ -33,3 +33,11 @@ export const createNewGroup = async ({
 
   return newGroupData._id;
 };
+
+export const updateGroup = async (groupId: string, balance: string) =>
+  GroupModel.findOneAndUpdate(
+    {
+      _id: groupId,
+    },
+    { balance }
+  );

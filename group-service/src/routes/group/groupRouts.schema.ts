@@ -5,6 +5,10 @@ export const CreateNewGroupSchema = object().shape({
   groupName: string().required(),
 });
 
+export const UpdateGroupSchema = object().shape({
+  balance: string().required(),
+});
+
 export const ValidUserIdParamsSchema = object().shape({
   userId: string()
     .test((value) => objectIdValidator(value))
@@ -28,6 +32,7 @@ export const AddToGroupSchema = object().shape({
 
 export type CreateNewGroupSchemaType = InferType<typeof CreateNewGroupSchema>;
 export type AddToGroupSchemaType = InferType<typeof AddToGroupSchema>;
+export type UpdateGroupSchemaType = InferType<typeof UpdateGroupSchema>;
 export type ValidUserIdParamsSchemaType = InferType<
   typeof ValidUserIdParamsSchema
 >;

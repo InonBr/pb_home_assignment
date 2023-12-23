@@ -5,6 +5,8 @@ import {
   AddToGroupSchemaType,
   CreateNewGroupSchema,
   CreateNewGroupSchemaType,
+  UpdateGroupSchema,
+  UpdateGroupSchemaType,
   ValidGroupAndUserIdParamsType,
   ValidGroupIdParamsSchema,
   ValidGroupIdParamsSchemaType,
@@ -18,6 +20,7 @@ import {
   findGroupById,
   isGroupAdmin,
   isPartOfGroup,
+  updateGroup,
 } from "@repositories/group/groupRepository";
 
 const groupRoutes = Router();
@@ -45,6 +48,32 @@ groupRoutes.post(
 
       return res.status(201).json({
         id,
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
+
+groupRoutes.put(
+  "/updateGroup/:groupId",
+  validateSchema(UpdateGroupSchema),
+  validateSchema(ValidGroupIdParamsSchema, "p"),
+  async (
+    req: Request<ValidGroupIdParamsSchemaType, {}, UpdateGroupSchemaType>,
+    res: Response
+  ) => {
+    try {
+      const { balance } = req.body;
+      const { groupId } = req.params;
+      await updateGroup(groupId, balance);
+
+      return res.status(201).json({
+        id: groupId,
       });
     } catch (err) {
       console.log(err);
