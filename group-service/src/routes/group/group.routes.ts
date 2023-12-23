@@ -20,9 +20,11 @@ import {
   addUserToGroup,
   createNewGroup,
   findGroupById,
+  findGroupByName,
   isGroupAdmin,
   isPartOfGroup,
   updateGroup,
+  validateCreateUser,
 } from "@repositories/group/groupRepository";
 
 const groupRoutes = Router();
@@ -39,10 +41,13 @@ groupRoutes.post(
       const { groupName } = req.body;
       const { userId } = req.params;
       const user = await getUserById(userId);
+      const group = await findGroupByName(groupName);
+      const groupValidation = validateCreateUser({ user, group });
 
-      if (!user) {
-        return res.status(404).json({
-          msg: "user not found",
+      if (groupValidation) {
+        const { msg, status } = groupValidation;
+        return res.status(status).json({
+          msg,
         });
       }
 

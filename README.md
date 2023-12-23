@@ -26,3 +26,4 @@
 
 - There is some code repetition between the microservices. In future versions, we can create an `npm package` with shared components between the services.
 - Consider moving some direct `HTTPS` calls to queue-based services such as `kafka`. For example, there is no need to run the `notification-service` using a direct `HTTPS` call. We can use a queue-based system, so if there are any errors in the process, it will not kill the entire process but will retry the message at a later time.
+- Identify and secure endpoints that are intended for internal use only. Some endpoints should not be directly reachable by external processes for security reasons.
