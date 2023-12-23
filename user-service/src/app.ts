@@ -1,8 +1,8 @@
 import express, { Express } from "express";
 import cors from "cors";
-import { port } from "@config/index";
-import connectDB from "@systems/dBConnection";
+import { connectionString, port } from "@config/index";
 import userRoutes from "routes/user/user.routes";
+import connectDB from "shared-components-npm/src/dBConnection";
 
 const app: Express = express();
 
@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/api/user", userRoutes);
 
-connectDB().then(() => {
+connectDB(connectionString || "").then(() => {
   console.log("🔵 MongoDB connected...");
   app.listen(port, () => {
     console.log(`🟢 App listening at http://localhost:${port}`);
