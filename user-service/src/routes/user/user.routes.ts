@@ -9,6 +9,8 @@ import {
 import {
   CreateNewUserSchema,
   CreateNewUserSchemaType,
+  UpdateUserBalance,
+  UpdateUserBalanceType,
   UpdateUserSchema,
   UpdateUserSchemaType,
   ValidUserIdParamsSchema,
@@ -78,6 +80,47 @@ userRoutes.put(
         lastName: newLastName || lastName,
         email: newEmail || email,
         userId,
+      });
+
+      return res.status(201).json({
+        id: userId,
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
+
+userRoutes.put(
+  "/updateUserBalance/:userId",
+  validateSchema(UpdateUserBalance),
+  validateSchema(ValidUserIdParamsSchema, "p"),
+  async (
+    req: Request<ValidUserIdParamsSchemaType, {}, UpdateUserBalanceType>,
+    res: Response
+  ) => {
+    try {
+      const { balance } = req.body;
+      const { userId } = req.params;
+      const user = await findUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({
+          msg: "user not found",
+        });
+      }
+
+      const { email, firstName, lastName } = user;
+      await updateUserData({
+        balance,
+        userId,
+        email,
+        firstName,
+        lastName,
       });
 
       return res.status(201).json({

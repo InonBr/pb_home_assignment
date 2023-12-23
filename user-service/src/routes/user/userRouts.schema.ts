@@ -20,9 +20,14 @@ export const ValidUserIdParamsSchema = object().shape({
     .required(),
 });
 
+export const UpdateUserBalance = object().shape({
+  balance: number().min(1).required(),
+});
+
 export type ValidUserIdParamsSchemaType = InferType<
   typeof ValidUserIdParamsSchema
 >;
 
 export type CreateNewUserSchemaType = InferType<typeof CreateNewUserSchema>;
 export type UpdateUserSchemaType = InferType<typeof UpdateUserSchema>;
+export type UpdateUserBalanceType = InferType<typeof UpdateUserBalance>;
