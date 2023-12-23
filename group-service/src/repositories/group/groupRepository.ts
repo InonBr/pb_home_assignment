@@ -1,6 +1,8 @@
 import GroupModel from "@model/Group.model";
 import { CreateNewGroupInterface } from "./groupRepository.model";
 
+export const findGroupById = async (id: string) => GroupModel.findById(id);
+
 export const createNewGroup = async ({
   groupName,
   userId,

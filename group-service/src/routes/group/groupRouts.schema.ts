@@ -11,7 +11,21 @@ export const ValidUserIdParamsSchema = object().shape({
     .required(),
 });
 
+export const ValidGroupIdParamsSchema = object().shape({
+  groupId: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
 export type CreateNewGroupSchemaType = InferType<typeof CreateNewGroupSchema>;
 export type ValidUserIdParamsSchemaType = InferType<
   typeof ValidUserIdParamsSchema
 >;
+export type ValidGroupIdParamsSchemaType = InferType<
+  typeof ValidGroupIdParamsSchema
+>;
+
+export type ValidGroupAndUserIdParamsType = {
+  groupId: ValidGroupIdParamsSchemaType["groupId"];
+  userId: ValidUserIdParamsSchemaType["userId"];
+};
