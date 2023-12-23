@@ -17,6 +17,7 @@ import {
   createNewGroup,
   findGroupById,
   isGroupAdmin,
+  isPartOfGroup,
 } from "@repositories/group/groupRepository";
 
 const groupRoutes = Router();
@@ -131,6 +132,30 @@ groupRoutes.get(
 
       return res.status(200).json({
         group: await isGroupAdmin(groupId, userId),
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
+
+groupRoutes.get(
+  "/isPartOfGroup/:groupId/:userId",
+  validateSchema(ValidGroupIdParamsSchema, "p"),
+  validateSchema(ValidUserIdParamsSchema, "p"),
+  async (
+    req: Request<ValidGroupAndUserIdParamsType, {}, {}>,
+    res: Response
+  ) => {
+    try {
+      const { groupId, userId } = req.params;
+
+      return res.status(200).json({
+        group: await isPartOfGroup(groupId, userId),
       });
     } catch (err) {
       console.log(err);

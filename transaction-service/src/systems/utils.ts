@@ -26,5 +26,14 @@ export interface TransactionDataInterface extends Document {
   lastUpdatedDate: Date;
 }
 
+export interface GroupDataInterface {
+  _id: string;
+  adminsArr: Array<string>;
+  balance: number;
+  creationDate: string;
+  groupName: string;
+  usersArr: Array<string>;
+}
+
 export const objectIdValidator = (value: string | undefined) =>
   value === undefined || mongoose.Types.ObjectId.isValid(value);

@@ -1,8 +1,12 @@
-import { TransactionStatusEnum, UserDataInterface } from "@systems/utils";
+import {
+  GroupDataInterface,
+  TransactionStatusEnum,
+  UserDataInterface,
+} from "@systems/utils";
 
 export interface ValidateTransactionInterface {
-  receiverInfo: UserDataInterface | null;
-  payingInfo: UserDataInterface | null;
+  receiverInfo: UserDataInterface | GroupDataInterface | null;
+  payingInfo: UserDataInterface | GroupDataInterface | null;
   amount: number;
 }
 

@@ -12,6 +12,12 @@ export const isGroupAdmin = async (groupId: string, userId: string) =>
     adminsArr: userId,
   });
 
+export const isPartOfGroup = async (groupId: string, userId: string) =>
+  GroupModel.findOne({
+    _id: groupId,
+    adminsArr: userId,
+  });
+
 export const createNewGroup = async ({
   groupName,
   userId,

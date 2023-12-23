@@ -6,6 +6,9 @@ export const port = process.env.TRANSACTIONS_PORT || "5002";
 export const userServiceUrl = process.env.TRANSACTIONS_ENV
   ? process.env.USER_SERVICE_DOCKER_URL
   : process.env.USER_SERVICE_URL;
+export const groupServiceUrl = process.env.TRANSACTIONS_ENV
+  ? process.env.GROUP_SERVICE_DOCKER_URL
+  : process.env.GROUP_SERVICE_URL;
 export const notificationServiceUrl = process.env.TRANSACTIONS_ENV
   ? process.env.NOTIFICATION_SERVICE_DOCKER_URL
   : process.env.NOTIFICATION_SERVICE_URL;
@@ -25,6 +28,10 @@ const mandatoryVarArr = [
   {
     value: notificationServiceUrl,
     envName: "NOTIFICATION_SERVICE_DOCKER_URL || NOTIFICATION_SERVICE_URL",
+  },
+  {
+    value: groupServiceUrl,
+    envName: "GROUP_SERVICE_DOCKER_URL || GROUP_SERVICE_URL",
   },
 ];
 
