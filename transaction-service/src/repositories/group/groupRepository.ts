@@ -15,3 +15,14 @@ export const isUserPartOfGroup = async ({
 
   return data.group;
 };
+
+export const isUserGroupAdmin = async ({
+  groupId,
+  userId,
+}: IsPartOfGroupInterface) => {
+  const { data } = (await axios.get(
+    `${groupServiceUrl}api/group/isGroupAdmin/${groupId}/${userId}`
+  )) as AxiosResponse<IsPartOfGroupResponseInterface>;
+
+  return data.group;
+};

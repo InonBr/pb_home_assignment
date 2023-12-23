@@ -1,6 +1,8 @@
 export interface SendNotificationInterface {
-  userEmail: string;
-  name: string;
+  fromId: string;
+  toId: string;
   amount: number;
-  type: "outcome" | "income";
+  transactionId: string;
+  toGroup: boolean;
+  fromGroup: boolean;
 }

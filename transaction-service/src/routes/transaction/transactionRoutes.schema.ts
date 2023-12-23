@@ -25,6 +25,15 @@ export const AcceptTransactionParamsSchema = object().shape({
     .required(),
 });
 
+export const CurrentUserParamsSchema = object().shape({
+  currentUser: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
+});
+
+export type CurrentUserParamsSchemaType = InferType<
+  typeof CurrentUserParamsSchema
+>;
 export type CreateTransactionHistoryBodySchemaType = InferType<
   typeof CreateTransactionHistoryBodySchema
 >;
