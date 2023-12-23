@@ -1,5 +1,4 @@
 import { Request, Response, Router } from "express";
-import { validateSchema } from "@middleware/validateSchema.middleware";
 import {
   createNewUser,
   findUserByEmail,
@@ -16,6 +15,7 @@ import {
   ValidUserIdParamsSchema,
   ValidUserIdParamsSchemaType,
 } from "./userRouts.schema";
+import { validateSchema } from "@middleware/validateSchema.middleware";
 
 const userRoutes = Router();
 
