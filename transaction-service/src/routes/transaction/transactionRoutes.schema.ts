@@ -23,6 +23,9 @@ export const AcceptTransactionParamsSchema = object().shape({
   transactionId: string()
     .test((value) => objectIdValidator(value))
     .required(),
+  currentUser: string()
+    .test((value) => objectIdValidator(value))
+    .required(),
 });
 
 export const CurrentUserParamsSchema = object().shape({

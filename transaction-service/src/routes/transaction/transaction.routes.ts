@@ -28,6 +28,7 @@ import {
 } from "@repositories/transactionHistory/transactionHistoryRepository";
 import { sendNotification } from "@repositories/notification/notificationRepository";
 import {
+  getGroupBiId,
   isUserGroupAdmin,
   isUserPartOfGroup,
 } from "@repositories/group/groupRepository";
@@ -120,7 +121,7 @@ transactionRoutes.post(
 );
 
 transactionRoutes.post(
-  "/acceptTransaction/:transactionId",
+  "/acceptTransaction/:transactionId/:currentUser",
   validateSchema(AcceptTransactionBodySchema),
   validateSchema(AcceptTransactionParamsSchema, "p"),
   async (
@@ -133,15 +134,37 @@ transactionRoutes.post(
   ) => {
     try {
       const { updatedStatus } = req.body;
-      const { transactionId } = req.params;
+      const { transactionId, currentUser } = req.params;
       const transaction = await findTransactionById(transactionId);
-      const validate = validateTransactionAcceptance(
+      const validateTransactionData = validateTransactionAcceptance(
         transaction,
         updatedStatus
       );
 
-      if (validate) {
-        const { msg, statusCode } = validate;
+      if (validateTransactionData) {
+        const { msg, statusCode } = validateTransactionData;
+        return res.status(statusCode).json({
+          msg,
+        });
+      }
+
+      const { amount, toGroup, fromGroup, fromId, toId } = transaction!;
+      const [receiverInfo, payingInfo] = await Promise.all([
+        toGroup
+          ? isUserGroupAdmin({ groupId: toId, userId: currentUser })
+          : getUserById(toId),
+        fromGroup ? getGroupBiId(fromId) : getUserById(fromId),
+      ]);
+
+      const validation = validateTransaction({
+        payingInfo,
+        receiverInfo,
+        amount,
+      });
+
+      if (validation) {
+        const { msg, statusCode } = validation;
+
         return res.status(statusCode).json({
           msg,
         });
@@ -156,26 +179,6 @@ transactionRoutes.post(
       if (updatedStatus === TransactionStatusEnum.CANCELED) {
         return res.status(201).json({
           msg: `transaction was ${TransactionStatusEnum.CANCELED}`,
-        });
-      }
-
-      const { amount, toGroup, fromGroup, fromId, toId } = transaction!;
-      const [receiverInfo, payingInfo] = await Promise.all([
-        toGroup ? getUserById(toId) : getUserById(toId),
-        fromGroup ? getUserById(fromId) : getUserById(fromId),
-      ]);
-
-      const validation = validateTransaction({
-        payingInfo,
-        receiverInfo,
-        amount,
-      });
-
-      if (validation) {
-        const { msg, statusCode } = validation;
-
-        return res.status(statusCode).json({
-          msg,
         });
       }
 

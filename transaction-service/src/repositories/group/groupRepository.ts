@@ -26,3 +26,11 @@ export const isUserGroupAdmin = async ({
 
   return data.group;
 };
+
+export const getGroupBiId = async (groupId: string) => {
+  const { data } = (await axios.get(
+    `${groupServiceUrl}api/group/getGroup/${groupId}`
+  )) as AxiosResponse<IsPartOfGroupResponseInterface>;
+
+  return data.group;
+};
