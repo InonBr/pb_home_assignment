@@ -7,6 +7,7 @@ import {
   ValidUserIdParamsSchemaType,
 } from "./groupRouts.schema";
 import { getUserById } from "@repositories/user/userRepository";
+import { createNewGroup } from "@repositories/group/groupRepository";
 
 const groupRoutes = Router();
 
@@ -29,13 +30,10 @@ groupRoutes.post(
         });
       }
 
-      console.log(user);
+      const id = await createNewGroup({ groupName, userId });
 
-      console.log(userId);
-      console.log(groupName);
-
-      return res.status(200).json({
-        id: "dsadsada",
+      return res.status(201).json({
+        id,
       });
     } catch (err) {
       console.log(err);
