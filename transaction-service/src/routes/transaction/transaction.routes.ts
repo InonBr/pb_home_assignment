@@ -31,6 +31,7 @@ import {
   getGroupBiId,
   isUserGroupAdmin,
   isUserPartOfGroup,
+  updateGroupBalance,
 } from "@repositories/group/groupRepository";
 
 const transactionRoutes = Router();
@@ -184,21 +185,22 @@ transactionRoutes.post(
 
       await Promise.all([
         toGroup
-          ? updateUserBalance(toId, amount)
+          ? updateGroupBalance(toId, amount)
           : updateUserBalance(toId, amount),
         fromGroup
-          ? updateUserBalance(fromId, amount * -1)
+          ? updateGroupBalance(fromId, amount * -1)
           : updateUserBalance(fromId, amount * -1),
       ]);
 
       // send massage to notification service
-      // const { firstName, lastName, email } = payingInfo;
-      // await sendNotification({
-      //   amount,
-      //   name: `${firstName} ${lastName}`,
-      //   userEmail: email,
-      //   type: "outcome",
-      // });
+      await sendNotification({
+        amount,
+        fromGroup,
+        fromId,
+        toGroup,
+        toId,
+        transactionId,
+      });
 
       return res.status(201).json({
         msg: `transaction is ${TransactionStatusEnum.DONE}`,

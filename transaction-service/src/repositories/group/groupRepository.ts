@@ -34,3 +34,12 @@ export const getGroupBiId = async (groupId: string) => {
 
   return data.group;
 };
+
+export const updateGroupBalance = async (groupId: string, amount: number) => {
+  const { data } = (await axios.put(
+    `${groupServiceUrl}api/group/updateGroup/${groupId}`,
+    { amount }
+  )) as AxiosResponse<{ id: string }>;
+
+  return data.id;
+};

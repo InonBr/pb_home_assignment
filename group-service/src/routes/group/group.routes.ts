@@ -5,6 +5,8 @@ import {
   AddToGroupSchemaType,
   CreateNewGroupSchema,
   CreateNewGroupSchemaType,
+  UpdateGroupBalanceSchema,
+  UpdateGroupBalanceSchemaType,
   UpdateGroupSchema,
   UpdateGroupSchemaType,
   ValidGroupAndUserIdParamsType,
@@ -68,10 +70,56 @@ groupRoutes.put(
     res: Response
   ) => {
     try {
+      const { amount } = req.body;
+      const { groupId } = req.params;
+      const groupInfo = await findGroupById(groupId);
+
+      if (!groupInfo) {
+        return res.status(404).json({
+          msg: "group not found",
+        });
+      }
+
+      const { balance } = groupInfo;
+      await updateGroup(groupId, balance + amount);
+
+      return res.status(201).json({
+        id: groupId,
+      });
+    } catch (err) {
+      console.log(err);
+
+      return res.status(500).json({
+        msg: "Internal Server Error.",
+      });
+    }
+  }
+);
+
+groupRoutes.put(
+  "/updateGroupBalance/:groupId",
+  validateSchema(UpdateGroupBalanceSchema),
+  validateSchema(ValidGroupIdParamsSchema, "p"),
+  async (
+    req: Request<
+      ValidGroupIdParamsSchemaType,
+      {},
+      UpdateGroupBalanceSchemaType
+    >,
+    res: Response
+  ) => {
+    try {
       const { balance } = req.body;
       const { groupId } = req.params;
-      await updateGroup(groupId, balance);
+      const groupInfo = await findGroupById(groupId);
 
+      if (!groupInfo) {
+        return res.status(404).json({
+          msg: "group not found",
+        });
+      }
+
+      await updateGroup(groupId, balance);
       return res.status(201).json({
         id: groupId,
       });

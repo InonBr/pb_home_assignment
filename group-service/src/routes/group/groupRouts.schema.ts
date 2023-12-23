@@ -6,6 +6,10 @@ export const CreateNewGroupSchema = object().shape({
 });
 
 export const UpdateGroupSchema = object().shape({
+  amount: string().required(),
+});
+
+export const UpdateGroupBalanceSchema = object().shape({
   balance: string().required(),
 });
 
@@ -33,6 +37,9 @@ export const AddToGroupSchema = object().shape({
 export type CreateNewGroupSchemaType = InferType<typeof CreateNewGroupSchema>;
 export type AddToGroupSchemaType = InferType<typeof AddToGroupSchema>;
 export type UpdateGroupSchemaType = InferType<typeof UpdateGroupSchema>;
+export type UpdateGroupBalanceSchemaType = InferType<
+  typeof UpdateGroupBalanceSchema
+>;
 export type ValidUserIdParamsSchemaType = InferType<
   typeof ValidUserIdParamsSchema
 >;
